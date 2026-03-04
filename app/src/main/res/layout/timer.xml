@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/urab"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="urabutton"
+        android:onClick="cas"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_clock"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.346"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.975" />
+
+    <ImageButton
+        android:id="@+id/settingsb"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="settingsbutton"
+        android:onClick="nastavitve"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_settings"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.975" />
+
+    <ImageButton
+        android:id="@+id/homeb"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="homebutton"
+        android:onClick="kuci"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_home"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.975" />
+
+    <ImageButton
+        android:id="@+id/kolendarb"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="colendarbutton"
+        android:onClick="infotocka"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_calandar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.65"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.975" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="385dp"
+        android:layout_height="90dp"
+        android:text="Start a timer"
+        android:textAlignment="center"
+        android:textColor="@color/besedilosvetlo"
+        android:textSize="60dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.045"
+        tools:text="StudyBee" />
+
+    <TextView
+        android:id="@+id/timer"
+        android:layout_width="404dp"
+        android:layout_height="155dp"
+        android:text="00:00:00"
+        android:textAlignment="center"
+        android:textColor="@color/besedilosvetlo"
+        android:textSize="80dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.319" />
+
+    <Button
+        android:id="@+id/startbutton"
+        android:layout_width="331dp"
+        android:layout_height="104dp"
+        android:letterSpacing="0.06"
+        android:text="Start"
+        android:textColor="@color/svetlobela"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:onClick="startstop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.622" />
+
+    <Button
+        android:layout_width="331dp"
+        android:layout_height="104dp"
+        android:textColor="@color/svetlobela"
+        android:text="End timer"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:letterSpacing="0.06"
+        android:onClick="koncajtimer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.800" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

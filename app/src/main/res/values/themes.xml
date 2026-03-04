@@ -1,0 +1,20 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.StudyBee" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="android:windowAnimationStyle">@style/NoAnimation</item>
+        <item name="colorPrimary">@color/besedilosvetlo</item>
+    </style>
+
+    <style name="AppTheme.NoAnim" parent="Theme.Material3.DayNight.NoActionBar">
+    </style>
+
+    <style name="NoAnimation">
+        <item name="android:activityOpenEnterAnimation">@null</item>
+        <item name="android:activityOpenExitAnimation">@null</item>
+        <item name="android:activityCloseEnterAnimation">@null</item>
+        <item name="android:activityCloseExitAnimation">@null</item>
+    </style>
+
+    <style name="Theme.StudyBee" parent="Base.Theme.StudyBee" />
+</resources>

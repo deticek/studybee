@@ -1,0 +1,38 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="22dp"
+    android:height="22dp"
+    android:viewportWidth="26"
+    android:viewportHeight="26">
+
+    <group
+        android:translateX="1"
+        android:translateY="2">
+
+        <!-- Zunanji krog -->
+        <path
+            android:fillColor="@color/besedilosvetlo"
+            android:pathData="M12,2 A10,10 0 1,1 11.99,2Z"/>
+
+        <path
+            android:fillColor="@color/svetlobela"
+            android:pathData="M12,4 A8,8 0 1,1 11.99,4Z"/>
+
+        <path
+            android:fillColor="@color/besedilosvetlo"
+            android:pathData="M12,11 A1,1 0 1,1 11.99,11Z"/>
+
+        <path
+            android:fillColor="@color/besedilosvetlo"
+            android:pathData="M11.5,12 L11.5,7 L12.5,7 L12.5,12Z"/>
+
+        <path
+            android:fillColor="@color/besedilosvetlo"
+            android:pathData="M12,11.65 L16,11.65 L16,12.65 L12,12.65"/>
+
+        <path
+            android:fillColor="@color/besedilosvetlo"
+            android:pathData="M10,0 L14,0 L14,2 L10,2Z"/>
+
+    </group>
+
+</vector>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="bgblack">#3f3f3f</color>
+    <color name="amber">#FFFF00</color>
+    <color name="svetlobela">#E7DFD3</color>
+    <color name="besedilosvetlo">#673A24</color>
+</resources>

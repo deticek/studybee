@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="339dp"
+        android:layout_height="382dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.402"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.679"
+        app:srcCompat="@drawable/beeicon" />
+
+    <ImageButton
+        android:id="@+id/urab"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:background="@drawable/buttonborder"
+
+        android:contentDescription="urabutton"
+        android:onClick="cas"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_clock"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.346"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.975" />
+
+    <ImageButton
+        android:id="@+id/settingsb"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:background="@drawable/buttonborder"
+
+        android:contentDescription="settingsbutton"
+        android:onClick="nastavitve"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_settings"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.975" />
+
+    <ImageButton
+        android:id="@+id/homeb"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+
+        android:contentDescription="homebutton"
+        android:onClick="kuci"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_home"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/buttonborder"
+        app:layout_constraintVertical_bias="0.975" />
+
+    <ImageButton
+        android:id="@+id/kolendarb"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:background="@drawable/buttonborder"
+
+        android:contentDescription="colendarbutton"
+        android:onClick="infotocka"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_calandar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.65"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.975" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="385dp"
+        android:layout_height="90dp"
+        android:text="StudyBee"
+        android:textAlignment="center"
+        android:textColor="@color/besedilosvetlo"
+        android:textSize="60dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.045"
+        tools:text="StudyBee" />
+
+    <TextView
+        android:id="@+id/miniinfo"
+        android:layout_width="351dp"
+        android:layout_height="33dp"
+        android:text="Hours of study: "
+        android:textAlignment="center"
+        android:textColor="@color/besedilosvetlo"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.161"
+        tools:text="Hours of study: " />
+
+    <TextView
+        android:id="@+id/motivation"
+        android:layout_width="333dp"
+        android:layout_height="27dp"
+        android:text="Motivation quote:"
+        android:textAlignment="center"
+        android:textColor="@color/besedilosvetlo"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.217" />
+
+    <TextView
+        android:id="@+id/qout"
+        android:layout_width="333dp"
+        android:layout_height="57dp"
+        android:text="Motivation"
+        android:textAlignment="center"
+        android:textColor="@color/besedilosvetlo"
+        android:textSize="18dp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.267" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
