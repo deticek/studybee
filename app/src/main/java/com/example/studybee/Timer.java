@@ -11,7 +11,11 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class Timer extends AppCompatActivity{
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+public class Timer extends AppCompatActivity {
 
     TextView t;
     Button s;
@@ -19,6 +23,10 @@ public class Timer extends AppCompatActivity{
     boolean startstop = false;
 
     int seconds = 0;
+
+    DatabaseHelper dbHelper;
+
+    long startTimeMillis = 0;
 
     Handler handler = new Handler(Looper.getMainLooper());
     Runnable runnable;
@@ -28,6 +36,8 @@ public class Timer extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.timer);
+
+        dbHelper = new DatabaseHelper(this);
 
         t = findViewById(R.id.timer);
         s = findViewById(R.id.startbutton);
@@ -39,7 +49,7 @@ public class Timer extends AppCompatActivity{
         int m = (totalSeconds % 3600) / 60;
         int s = totalSeconds % 60;
 
-        return String.format("%02d:%02d:%02d", h, m, s);
+        return String.format(Locale.getDefault(), "%02d:%02d:%02d", h, m, s);
     }
 
     public void startstop(View v){
@@ -48,6 +58,11 @@ public class Timer extends AppCompatActivity{
 
             startstop = true;
             s.setText("Stop");
+
+            // shrani start timestamp samo prvič
+            if(startTimeMillis == 0){
+                startTimeMillis = System.currentTimeMillis();
+            }
 
             runnable = new Runnable() {
                 @Override
@@ -78,10 +93,30 @@ public class Timer extends AppCompatActivity{
 
         handler.removeCallbacks(runnable);
 
+        if(startTimeMillis != 0){
+
+            long endTimeMillis = System.currentTimeMillis();
+
+            // format start time
+            String startTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+                    .format(new Date(startTimeMillis));
+
+            // format end time
+            String endTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+                    .format(new Date(endTimeMillis));
+
+            long duration = seconds;
+
+            String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    .format(new Date());
+
+            dbHelper.insertSession(startTime, endTime, duration, date);
+        }
+
         seconds = 0;
+        startTimeMillis = 0;
 
         t.setText("00:00:00");
-
         s.setText("Start");
     }
 

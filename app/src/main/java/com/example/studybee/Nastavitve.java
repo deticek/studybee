@@ -11,46 +11,46 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class Nastavitve extends AppCompatActivity{
+public class Nastavitve extends AppCompatActivity {
 
+    DatabaseHelper dbHelper;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.nastavitve);
 
-
+        dbHelper = new DatabaseHelper(this);
     }
 
     public void izbrisidata(View v){
-        File file = new File(getFilesDir(), "name.txt");
+        // 1. Izbriši datoteke (če obstajajo)
+        File nameFile = new File(getFilesDir(), "name.txt");
+        File hfsFile = new File(getFilesDir(), "hfs.txt");
 
-        if (file.exists()) {
-            try {
-                FileOutputStream fos = new FileOutputStream(file);
-                fos.write("".getBytes()); // Zapiše prazno vsebino, kar efektivno izbriše podatke
+        try {
+            if (nameFile.exists()) {
+                FileOutputStream fos = new FileOutputStream(nameFile);
+                fos.write("".getBytes());
                 fos.close();
-                System.out.println("Podatki izbrisani"); // Posodobi UI, če je potrebno
-            } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("name.txt izbrisan");
             }
-        } else {
-            System.out.println("Datoteka ne obstaja");
+            if (hfsFile.exists()) {
+                FileOutputStream fos = new FileOutputStream(hfsFile);
+                fos.write("0".getBytes());
+                fos.close();
+                System.out.println("hfs.txt izbrisan");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        file = new File(getFilesDir(), "hfs.txt");
+        // 2. Izbriši vse podatke iz baze
+        dbHelper.getWritableDatabase().delete(DatabaseHelper.TABLE_SESSIONS, null, null);
+        dbHelper.getWritableDatabase().delete(DatabaseHelper.TABLE_USER, null, null);
+        System.out.println("Vsa baza izbrisana");
 
-        if (file.exists()) {
-            try {
-                FileOutputStream fos = new FileOutputStream(file);
-                fos.write("0".getBytes()); // Zapiše prazno vsebino, kar efektivno izbriše podatke
-                fos.close();
-                System.out.println("Podatki izbrisani"); // Posodobi UI, če je potrebno
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("Datoteka ne obstaja");
-        }
     }
 
     public void nastavitve(View v){

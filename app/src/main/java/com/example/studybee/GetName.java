@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class GetName extends AppCompatActivity {
@@ -20,37 +21,35 @@ public class GetName extends AppCompatActivity {
     Button b;
     EditText e;
 
+    DatabaseHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.getname);
 
-        b=findViewById(R.id.submit);
-        e=findViewById(R.id.getnametext);
+        dbHelper = new DatabaseHelper(this);
+
+        b = findViewById(R.id.submit);
+        e = findViewById(R.id.getnametext);
 
     }
 
-    public void goBack(View v){
+    public void goBack(View v) {
 
         String name = e.getText().toString().trim();
         if (name.isEmpty()) {
             e.setError("Vnesi ime!");
             return;
         }
-
-        File file = new File(getFilesDir(), "name.txt");
-
-        try (FileOutputStream fos = new FileOutputStream(file)) {
-            fos.write(name.getBytes());
-            e.setText("");
-
-            Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        if (dbHelper.insertOrUpdateUsername(name.toString())) {
             startActivity(intent);
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } else {
+            System.out.println("error");
         }
     }
-
-    }
+}
 

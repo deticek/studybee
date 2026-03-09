@@ -12,16 +12,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Scanner;
-
 public class MainActivity extends AppCompatActivity {
 
     TextView v;
     Button b;
+
+    DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +28,18 @@ public class MainActivity extends AppCompatActivity {
         v = findViewById(R.id.asdf);
         b = findViewById(R.id.button);
 
-        // Preveri in ustvari datoteko, če ne obstaja
-        createFileIfNotExists();
+        dbHelper = new DatabaseHelper(this);
 
-        myname();
+        // Preberi username iz baze
+        String username = dbHelper.getUsername();
+        if (username == null || username.isEmpty()) {
+            // Če username še ni nastavljen, pojdi na GetName
+            Intent intent = new Intent(this, GetName.class);
+            startActivity(intent);
+            finish();
+        } else {
+            v.setText("Welcome " + username);
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -44,51 +48,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void createFileIfNotExists() {
-        File file = new File(getFilesDir(), "name.txt");
-
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-                FileOutputStream fos = new FileOutputStream(file);
-                fos.write("".getBytes()); // Prazna vsebina
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void domov(View v){
+    public void domov(View view){
         Intent intent = new Intent(this, Home.class);
         startActivity(intent);
-    }
-
-    private void myname() {
-        File namee = new File(getFilesDir(), "name.txt");
-
-        if (!namee.exists()) {
-            v.setText("No File");
-            return;
-        }
-
-        try {
-            Scanner reader = new Scanner(namee);
-            if (reader.hasNextLine()) {
-                String name = reader.nextLine().trim();
-                if (name.isEmpty()) {
-                    Intent intent = new Intent(this, GetName.class);
-                    startActivity(intent);
-                } else {
-                    v.setText("Welcome "+name);
-                }
-            } else {
-                Intent intent = new Intent(this, GetName.class);
-                startActivity(intent);
-            }
-            reader.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 }
