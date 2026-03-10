@@ -45,7 +45,7 @@ public class GetName extends AppCompatActivity {
         }
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-        if (dbHelper.insertOrUpdateUsername(name.toString())) {
+        if (dbHelper.setUsername(name.toString())) {
             startActivity(intent);
         } else {
             System.out.println("error");

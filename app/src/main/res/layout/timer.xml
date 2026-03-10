@@ -119,18 +119,36 @@
         app:layout_constraintVertical_bias="0.622" />
 
     <Button
+        android:id="@+id/button4"
         android:layout_width="331dp"
         android:layout_height="104dp"
-        android:textColor="@color/svetlobela"
-        android:text="End timer"
-        android:textSize="40dp"
-        android:textStyle="bold"
         android:letterSpacing="0.06"
         android:onClick="koncajtimer"
+        android:text="End timer"
+        android:textColor="@color/svetlobela"
+        android:textSize="40dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.800" />
+
+    <TextView
+        android:id="@+id/obvestilo"
+        android:layout_width="410dp"
+        android:layout_height="55dp"
+        android:visibility="gone"
+        android:text="FOCUSE MODE IS ON.                                    YOU CAN NOT LEAVE THE APP"
+        android:textColor="@color/rdeca"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.184" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

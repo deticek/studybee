@@ -3,6 +3,13 @@ package com.example.studybee;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
+
+import androidx.core.app.NotificationCompat;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +29,49 @@ public class Nastavitve extends AppCompatActivity {
         setContentView(R.layout.nastavitve);
 
         dbHelper = new DatabaseHelper(this);
+    }
+
+    private void sendFocusNotification(){
+
+        String channelId = "focus_channel";
+
+        NotificationManager manager =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+
+            NotificationChannel channel = new NotificationChannel(
+                    channelId,
+                    "Focus Mode",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+
+            channel.setDescription("Focus mode notifications");
+
+            manager.createNotificationChannel(channel);
+        }
+        Notification notification;
+        if(FocusManager.focusEnable){
+            notification = new NotificationCompat.Builder(this, channelId)
+                    .setSmallIcon(R.mipmap.beeicon)
+                    .setContentTitle("Focus Mode Activated")
+                    .setContentText("When you will turn on the timer you wont be able to leave the app.")
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setAutoCancel(true)
+                    .build();
+        }else{
+            notification = new NotificationCompat.Builder(this, channelId)
+                    .setSmallIcon(R.mipmap.beeicon)
+                    .setContentTitle("Focus Mode Deactivated")
+                    .setContentText("When you will turn on the timer you will be able to leave the app.")
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setAutoCancel(true)
+                    .build();
+        }
+
+
+
+        manager.notify(1, notification);
     }
 
     public void izbrisidata(View v){
@@ -50,6 +100,21 @@ public class Nastavitve extends AppCompatActivity {
         dbHelper.getWritableDatabase().delete(DatabaseHelper.TABLE_SESSIONS, null, null);
         dbHelper.getWritableDatabase().delete(DatabaseHelper.TABLE_USER, null, null);
         System.out.println("Vsa baza izbrisana");
+
+    }
+
+    public void fokus(View v){
+
+
+        if(FocusManager.focusEnable){
+            FocusManager.focusEnable = false;
+        } else {
+            FocusManager.focusEnable = true;
+        }
+
+        dbHelper.setFocusMode(FocusManager.focusEnable);
+
+        sendFocusNotification();
 
     }
 

@@ -8,6 +8,7 @@ import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,11 +38,9 @@ public class Timer extends AppCompatActivity {
 
         dbHelper = new DatabaseHelper(this);
 
-        // 1️⃣ Inicializiraj UI
         t = findViewById(R.id.timer);
         s = findViewById(R.id.startbutton);
 
-        // 2️⃣ Preberi stanje iz SharedPreferences
         SharedPreferences prefs = getSharedPreferences("timerPrefs", MODE_PRIVATE);
         seconds = prefs.getInt("seconds", 0);
         startstop = prefs.getBoolean("running", false);
@@ -50,7 +49,6 @@ public class Timer extends AppCompatActivity {
         t.setText(formatTime(seconds));
         s.setText(startstop ? "Stop" : "Start");
 
-        // 3️⃣ Definiraj runnable
         runnable = new Runnable() {
             @Override
             public void run() {
@@ -63,10 +61,32 @@ public class Timer extends AppCompatActivity {
             }
         };
 
-        // 4️⃣ Če je timer tekel, nadaljuj
         if(startstop){
             handler.post(runnable);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if(FocusManager.focusEnable && FocusManager.timerRunning){
+            Toast.makeText(this, "Focus mode active - cannot leave", Toast.LENGTH_SHORT).show();
+        } else {
+            super.onBackPressed();
+        }
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if(FocusManager.focusEnable && FocusManager.timerRunning){
+            Intent intent = new Intent(this, Timer.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+        }
+
     }
 
     private String formatTime(int totalSeconds){
@@ -79,7 +99,15 @@ public class Timer extends AppCompatActivity {
     public void startstop(View v){
         if(!startstop){
             startstop = true;
+            FocusManager.timerRunning = true;
             s.setText("Stop");
+
+            if(FocusManager.focusEnable){
+                startLockTask();
+
+                findViewById(R.id.obvestilo).setVisibility(View.VISIBLE);
+
+            }
 
             // skrij gumbove
             findViewById(R.id.homeb).setVisibility(View.GONE);
@@ -97,9 +125,16 @@ public class Timer extends AppCompatActivity {
 
         }else{
             startstop = false;
+            FocusManager.timerRunning=false;
             s.setText("Start");
 
+            if(FocusManager.focusEnable){
+                stopLockTask();
+            }
+
             // pokaži gumbove
+            findViewById(R.id.obvestilo).setVisibility(View.GONE);
+
             findViewById(R.id.homeb).setVisibility(View.VISIBLE);
             findViewById(R.id.kolendarb).setVisibility(View.VISIBLE);
             findViewById(R.id.textView3).setVisibility(View.VISIBLE);
@@ -115,6 +150,18 @@ public class Timer extends AppCompatActivity {
     public void koncajtimer(View v){
         startstop = false;
         handler.removeCallbacks(runnable);
+        FocusManager.timerRunning=false;
+
+        if(FocusManager.focusEnable){
+            stopLockTask();
+        }
+
+        findViewById(R.id.obvestilo).setVisibility(View.GONE);
+        findViewById(R.id.homeb).setVisibility(View.VISIBLE);
+        findViewById(R.id.kolendarb).setVisibility(View.VISIBLE);
+        findViewById(R.id.textView3).setVisibility(View.VISIBLE);
+        findViewById(R.id.settingsb).setVisibility(View.VISIBLE);
+        findViewById(R.id.urab).setVisibility(View.VISIBLE);
 
         if(startTimeMillis != 0){
             long endTimeMillis = System.currentTimeMillis();

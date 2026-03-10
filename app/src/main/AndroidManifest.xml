@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -23,7 +25,8 @@
         </activity>
         <activity android:name=".GetName"/>
         <activity android:name=".Home"/>
-        <activity android:name=".Timer"/>
+        <activity android:name=".Timer"
+            android:lockTaskMode="if_whitelisted"/>
         <activity android:name=".Nastavitve"/>
         <activity android:name=".Info"/>
     </application>
