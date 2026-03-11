@@ -31,6 +31,8 @@ public class GetName extends AppCompatActivity {
 
         dbHelper = new DatabaseHelper(this);
 
+        dbHelper.createDefaultUserIfNeeded();
+
         b = findViewById(R.id.submit);
         e = findViewById(R.id.getnametext);
 

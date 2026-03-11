@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/beeicon"
         android:supportsRtl="true"
         android:theme="@style/Theme.StudyBee"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:name=".MyApp">
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -28,6 +30,7 @@
         <activity android:name=".Timer"
             android:lockTaskMode="if_whitelisted"/>
         <activity android:name=".Nastavitve"/>
+
         <activity android:name=".Info"/>
     </application>
 

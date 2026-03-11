@@ -92,6 +92,7 @@
         android:layout_height="wrap_content"
         android:onClick="izbrisidata"
         android:text="Delete data"
+        android:textColor="@color/svetlobela"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.467"
@@ -100,13 +101,14 @@
         app:layout_constraintVertical_bias="0.235" />
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="313dp"
-        android:layout_height="69dp"
-        android:text=" FOCUSE MODE"
-        android:textStyle="bold"
-        android:textSize="30dp"
+        android:id="@+id/focusbutton"
+        android:layout_width="352dp"
+        android:layout_height="72dp"
         android:onClick="fokus"
+        android:text=" FOCUSE MODE: true"
+        android:textColor="@color/svetlobela"
+        android:textSize="28dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
