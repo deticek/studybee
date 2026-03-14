@@ -1,15 +1,24 @@
 package com.example.studybee;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.app.Notification;
+import android.app.Service;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.IBinder;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,7 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class Timer extends AppCompatActivity {
+public class Timer extends AppCompatActivity{
 
     TextView t;
     Button s;
@@ -131,7 +140,24 @@ public class Timer extends AppCompatActivity {
             FocusManager.timerRunning = true;
             s.setText("Stop");
 
-            if(FocusManager.focusEnable) findViewById(R.id.obvestilo).setVisibility(View.VISIBLE);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+            if (FocusManager.focusEnable)
+            {
+                findViewById(R.id.obvestilo).setVisibility(View.VISIBLE);
+                NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (!nm.isNotificationPolicyAccessGranted()) {
+                        Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                        startActivity(intent);
+                        // uporabnik mora ročno omogočit dostop
+                    } else {
+                        // vklopi DND (samo alarma tvoj timer in tvoj push notifikacije lahko preglasijo)
+                        nm.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_PRIORITY);
+                    }
+                }
+            }
             hideUIButtons();
 
             if (startTimeMillis == 0) startTimeMillis = System.currentTimeMillis();
@@ -140,6 +166,7 @@ public class Timer extends AppCompatActivity {
             if (FocusManager.focusEnable) lockHandler.post(lockChecker);
         } else {
             pauseTimer();
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
         saveTimerState();
     }
@@ -148,7 +175,7 @@ public class Timer extends AppCompatActivity {
         startstop = false;
         FocusManager.timerRunning = false;
         s.setText("Start");
-
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         findViewById(R.id.obvestilo).setVisibility(View.GONE);
         showUIButtons();
 
@@ -160,7 +187,7 @@ public class Timer extends AppCompatActivity {
     private void stopTimerDueToExit() {
         Toast.makeText(this, "You left the app! Timer stopped.", Toast.LENGTH_LONG).show();
         Notifications.pushNotification(this, "Timer Stopped", "You left the app!", Timer.class);
-
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         startstop = false;
         FocusManager.timerRunning = false;
         handler.removeCallbacks(runnable);
@@ -181,6 +208,7 @@ public class Timer extends AppCompatActivity {
 
     public void koncajtimer(View v) {
         startstop = false;
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         FocusManager.timerRunning = false;
         handler.removeCallbacks(runnable);
         lockHandler.removeCallbacks(lockChecker);

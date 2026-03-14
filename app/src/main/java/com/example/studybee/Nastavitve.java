@@ -1,5 +1,6 @@
 package com.example.studybee;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -88,11 +89,27 @@ public class Nastavitve extends AppCompatActivity {
         String text;
 
         if(FocusManager.focusEnable){
+
+
             FocusManager.focusEnable = false;
             title="Focus Mode Deactivated";
             text="When you will turn on the timer you will be able to leave the app.";
 
         } else {
+
+            NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (!nm.isNotificationPolicyAccessGranted()) {
+                    Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                    startActivity(intent);
+                    // uporabnik mora ročno omogočit dostop
+                } else {
+                    // vklopi DND (samo alarma tvoj timer in tvoj push notifikacije lahko preglasijo)
+                    nm.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_PRIORITY);
+                }
+            }
+
             FocusManager.focusEnable = true;
                     title=("Focus Mode Activated");
                     text=("When you will turn on the timer you wont be able to leave the app.");
