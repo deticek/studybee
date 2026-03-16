@@ -106,7 +106,7 @@ public class Nastavitve extends AppCompatActivity {
                     // uporabnik mora ročno omogočit dostop
                 } else {
                     // vklopi DND (samo alarma tvoj timer in tvoj push notifikacije lahko preglasijo)
-                    nm.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_PRIORITY);
+                    //nm.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_PRIORITY);
                 }
             }
 
@@ -119,6 +119,11 @@ public class Nastavitve extends AppCompatActivity {
         nastaviNapisFocus();
         Notifications.pushNotification(this, title,text, Nastavitve.class);
 
+    }
+
+    public void letsi(View v){
+        Intent i = new Intent(this, Doseski.class);
+        startActivity(i);
     }
 
     public void nastavitve(View v){

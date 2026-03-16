@@ -9,7 +9,8 @@
         android:id="@+id/urab"
         android:layout_width="85dp"
         android:layout_height="85dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:background="@drawable/buttonborder"
+
         android:contentDescription="urabutton"
         android:onClick="cas"
         android:scaleType="fitCenter"
@@ -25,7 +26,7 @@
         android:id="@+id/settingsb"
         android:layout_width="85dp"
         android:layout_height="85dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:background="@drawable/buttonborder"
         android:contentDescription="settingsbutton"
         android:onClick="nastavitve"
         android:scaleType="fitCenter"
@@ -41,7 +42,7 @@
         android:id="@+id/homeb"
         android:layout_width="85dp"
         android:layout_height="85dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
+
         android:contentDescription="homebutton"
         android:onClick="kuci"
         android:scaleType="fitCenter"
@@ -51,13 +52,15 @@
         app:layout_constraintHorizontal_bias="0.049"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/buttonborder"
         app:layout_constraintVertical_bias="0.975" />
 
     <ImageButton
         android:id="@+id/kolendarb"
         android:layout_width="85dp"
         android:layout_height="85dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:background="@drawable/buttonborder"
+
         android:contentDescription="colendarbutton"
         android:onClick="infotocka"
         android:scaleType="fitCenter"
@@ -113,6 +116,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/doseski"
+        android:layout_width="352dp"
+        android:layout_height="72dp"
+        android:onClick="letsi"
+        android:text="Achievements"
+        android:textAllCaps="true"
+        android:textColor="@color/svetlobela"
+        android:textSize="28dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.71" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

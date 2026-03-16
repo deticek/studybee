@@ -166,6 +166,15 @@ public class Timer extends AppCompatActivity{
             if (FocusManager.focusEnable) lockHandler.post(lockChecker);
         } else {
             pauseTimer();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                if (nm.isNotificationPolicyAccessGranted()) {
+                    nm.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALL);
+                }
+            }
+
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
         saveTimerState();
@@ -175,6 +184,15 @@ public class Timer extends AppCompatActivity{
         startstop = false;
         FocusManager.timerRunning = false;
         s.setText("Start");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+            if (nm.isNotificationPolicyAccessGranted()) {
+                nm.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALL);
+            }
+        }
+
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         findViewById(R.id.obvestilo).setVisibility(View.GONE);
         showUIButtons();
@@ -189,6 +207,15 @@ public class Timer extends AppCompatActivity{
         Notifications.pushNotification(this, "Timer Stopped", "You left the app!", Timer.class);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         startstop = false;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+            if (nm.isNotificationPolicyAccessGranted()) {
+                nm.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALL);
+            }
+        }
+
         FocusManager.timerRunning = false;
         handler.removeCallbacks(runnable);
         lockHandler.removeCallbacks(lockChecker);
@@ -210,6 +237,15 @@ public class Timer extends AppCompatActivity{
         startstop = false;
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         FocusManager.timerRunning = false;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+            if (nm.isNotificationPolicyAccessGranted()) {
+                nm.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALL);
+            }
+        }
+
         handler.removeCallbacks(runnable);
         lockHandler.removeCallbacks(lockChecker);
         graceCounter = 0;
