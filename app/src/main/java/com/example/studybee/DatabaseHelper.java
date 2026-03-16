@@ -5,13 +5,19 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Locale;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "studybee.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 4;
 
     // ----------- SESSIONS TABLE -----------
     public static final String TABLE_SESSIONS = "sessions";
@@ -25,6 +31,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_USER = "User";
     public static final String COL_USERNAME = "username";
     public static final String COL_FOCUSMODE = "focus"; // 0/1 integer
+
+    // ------------ ACHIVMENTS TABLE -------------------
+
+    public static final String TABLE_ACHIVEMENTS = "Achivements";
+    public static final String COL_NAME = "name";
+    public static final String COL_DESCRIPTION = "description";
+    public static final String COL_UNLOCK = "unlock";
+    public static final String COL_HIDDEN = "hidden";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -47,13 +61,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " (" + COL_USERNAME + " TEXT, " +
                 COL_FOCUSMODE + " INTEGER)";
         db.execSQL(CREATE_TABLE_USER);
+
+        // Achievements table
+        String CREATE_TABLE_ACHIEVEMENTS = "CREATE TABLE IF NOT EXISTS " + TABLE_ACHIVEMENTS + " (" +
+                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_NAME + " TEXT, " +
+                COL_DESCRIPTION + " TEXT, " +
+                COL_UNLOCK + " INTEGER DEFAULT 0, " +
+                COL_DATE + " TEXT,"+
+                COL_HIDDEN + " INTEGER DEFAULT 0)";
+        db.execSQL(CREATE_TABLE_ACHIEVEMENTS);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SESSIONS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ACHIVEMENTS);
         onCreate(db);
+    }
+
+    public void createDefaultInput() {
+        createDefaultUserIfNeeded();
+        insertAchievements(); // Call to insert achievements
     }
 
     // ----------- USER METHODS -----------
@@ -125,6 +156,93 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         cursor.close();
         return focus;
+    }
+
+    // --------- ACHIVEMENTS METHODS -------------
+
+    private void insertAchievements() {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Object[][] achievements = {
+                {"First time seeing you", "Open the app for the first time.", 0},
+                {"Ready to focus", "Start the stopwatch for the first time.", 0},
+                {"One step forward", "Complete your first focus session.", 0},
+
+                {"Staying a while", "Focus for 5 minutes.", 0},
+                {"Getting into it", "Focus for 10 minutes.", 0},
+                {"Deep focus", "Focus for 25 minutes.", 0},
+
+                {"Halfway there", "Focus for 30 minutes.", 0},
+                {"One full hour", "Focus for 60 minutes.", 0},
+
+                {"Focus apprentice", "Complete 5 focus sessions.", 0},
+                {"Focus enjoyer", "Complete 10 focus sessions.", 0},
+                {"Productivity machine", "Complete 50 focus sessions.", 0},
+
+                {"Locked in", "Complete a session with focus mode enabled.", 0},
+                {"Discipline", "Focus for 10 minutes with focus mode enabled.", 0},
+                {"Iron will", "Focus for 30 minutes with focus mode enabled.", 0},
+                {"Unbreakable focus", "Focus for 60 minutes with focus mode enabled.", 0},
+                {"Still here?", "Keep the stopwatch running for 45 minutes.", 0},
+
+                {"Are you machine?", "Complete 100 focus sessions.", 1},
+                {"Insane focus", "Focus for 2 hours with focus mode enabled.", 1},
+                {"Just one more minute", "Keep the stopwatch running for 2 minutes.", 1},
+                {"Time flies", "Keep the stopwatch running for 15 minutes.", 1},
+                {"Are you studying or what?", "Focus for 2 hours.", 1},
+                {"Do you forget to turn off the timer?", "Focus for 3 hours or more.", 1},
+                {"That didn’t last long", "Stop the stopwatch after less than 10 seconds.", 1},
+                {"Distracted already", "Stop a session before reaching 1 minute.", 1},
+        };
+
+        for (Object[] achievement : achievements) {
+
+            ContentValues values = new ContentValues();
+            values.put(COL_NAME, (String) achievement[0]);
+            values.put(COL_DESCRIPTION, (String) achievement[1]);
+            values.put(COL_UNLOCK, 0);
+            values.put(COL_HIDDEN, (Integer) achievement[2]);
+
+            db.insert(TABLE_ACHIVEMENTS, null, values);
+        }
+    }
+
+    public int getNumOfAchievements() {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_ACHIVEMENTS + " WHERE " + COL_UNLOCK + " = 1",null);
+
+        int num = 0;
+
+        if (cursor.moveToFirst()) {
+            num = cursor.getInt(0);
+        }
+
+        cursor.close();
+
+        return num;
+    }
+
+    public Cursor getAllAchivement() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE_ACHIVEMENTS + " ORDER BY id ASC", null);
+    }
+
+    public void unlockAchievement(int id) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Date danes = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        String formatiranDatum = format.format(danes);
+
+        ContentValues values = new ContentValues();
+        values.put("unlock", 1);
+        values.put("date", formatiranDatum);
+
+        db.update(TABLE_ACHIVEMENTS, values, "id=?", new String[]{String.valueOf(id)});
     }
 
     // ----------- SESSION METHODS -----------

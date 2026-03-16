@@ -9,18 +9,18 @@
         android:id="@+id/textView3"
         android:layout_width="352dp"
         android:layout_height="67dp"
-        android:text="Achievements"
+        android:text="Trophy"
         android:textAlignment="center"
         android:textColor="@color/besedilosvetlo"
         android:textSize="45dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.052"
-        tools:text="Achievements" />
+        tools:text="Trophy" />
 
     <ImageButton
         android:id="@+id/goback"
@@ -38,15 +38,50 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.052" />
 
+    <TextView
+        android:id="@+id/miniinfo"
+        android:layout_width="351dp"
+        android:layout_height="33dp"
+        android:text="Hours of study: "
+        android:textAlignment="center"
+        android:textColor="@color/besedilosvetlo"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.161"
+        tools:text="Hours of study: " />
+
+    <TextView
+        android:id="@+id/numof"
+        android:layout_width="351dp"
+        android:layout_height="33dp"
+        android:text="Numbers of achievements: "
+        android:textAlignment="center"
+        android:textColor="@color/besedilosvetlo"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.200"
+         />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/historyRecycler"
         android:layout_width="375dp"
-        android:layout_height="570dp"
+        android:layout_height="554dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.811" />
+        app:layout_constraintVertical_bias="0.916" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,69 @@
+Name: First time seeing you
+Description: Open the app for the first time.
+
+Name: Ready to focus
+Description: Start the stopwatch for the first time.
+
+Name: One step forward
+Description: Complete your first focus session.
+
+Name: Staying a while
+Description: Focus for 5 minutes.
+
+Name: Getting into it
+Description: Focus for 10 minutes.
+
+Name: Deep focus
+Description: Focus for 25 minutes.
+
+Name: Halfway there
+Description: Focus for 30 minutes.
+
+Name: One full hour
+Description: Focus for 60 minutes.
+
+Name: Focus apprentice
+Description: Complete 5 focus sessions.
+
+Name: Focus enjoyer
+Description: Complete 10 focus sessions.
+
+Name: Productivity machine
+Description: Complete 50 focus sessions.
+
+ // Focus mode achievements
+
+Name: No escape
+Description: Enable focus mode for the first time.
+
+Name: Locked in
+Description: Complete a session with focus mode enabled.
+
+Name: Discipline
+Description: Focus for 10 minutes with focus mode enabled.
+
+Name: Iron will
+Description: Focus for 30 minutes with focus mode enabled.
+
+Name: Unbreakable focus
+Description: Focus for 60 minutes with focus mode enabled.
+
+
+Name: Just one more minute
+Description: Keep the stopwatch running for 2 minutes.
+
+Name: Time flies
+Description: Keep the stopwatch running for 15 minutes.
+
+Name: Still here?
+Description: Keep the stopwatch running for 45 minutes.
+
+Name: Are you studying or what?
+Description: Focus for 2 hours.
+
+
+Name: That didn’t last long
+Description: Stop the stopwatch after less than 10 seconds.
+
+Name: Distracted already
+Description: Stop a session before reaching 1 minute.
