@@ -165,28 +165,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         Object[][] achievements = {
-                {"First time seeing you", "Open the app for the first time.", 0}, //1
-                {"Ready to focus", "Start the stopwatch for the first time.", 0}, //2
-                {"One step forward", "Complete your first focus session.", 0}, //3
+                {"First time seeing you", "Open the app for the first time.", 0}, //1 -
+                {"Ready to focus", "Start the stopwatch for the first time.", 0}, //2 -
+                {"One step forward", "Complete your first focus session.", 0}, //3 -
 
-                {"Staying a while", "Focus for 5 minutes.", 0}, //4
-                {"Getting into it", "Focus for 10 minutes.", 0}, //5
-                {"Deep focus", "Focus for 25 minutes.", 0}, //6
+                {"Staying a while", "Focus for 5 minutes.", 0}, //4 -
+                {"Getting into it", "Focus for 10 minutes.", 0}, //5 -
+                {"Deep focus", "Focus for 25 minutes.", 0}, //6 -
+                {"Halfway there", "Focus for 30 minutes.", 0}, //7 -
+                {"One full hour", "Focus for 60 minutes.", 0}, //8 -
 
-                {"Halfway there", "Focus for 30 minutes.", 0}, //7
-                {"One full hour", "Focus for 60 minutes.", 0}, //8
+                {"Focus apprentice", "Complete 5 focus sessions.", 0}, //9 -
+                {"Focus enjoyer", "Complete 10 focus sessions.", 0}, //10 -
+                {"Productivity machine", "Complete 50 focus sessions.", 0},  //11 -
 
-                {"Focus apprentice", "Complete 5 focus sessions.", 0}, //9
-                {"Focus enjoyer", "Complete 10 focus sessions.", 0}, //10
-                {"Productivity machine", "Complete 50 focus sessions.", 0},  //11
+                {"Ready for focus", "Complete first focus with focus mode enabled.", 0}, //12 -
+                {"Locked in", "Focus for 5 minutes with focus mode enabled.", 0},  //13 -
+                {"Discipline", "Focus for 10 minutes with focus mode enabled.", 0}, //14 -
+                {"Iron will", "Focus for 30 minutes with focus mode enabled.", 0}, //15 -
+                {"Unbreakable focus", "Focus for 60 minutes with focus mode enabled.", 0}, //16 -
 
-                {"Locked in", "Complete a session with focus mode enabled.", 0},  //12
-                {"Discipline", "Focus for 10 minutes with focus mode enabled.", 0}, //13
-                {"Iron will", "Focus for 30 minutes with focus mode enabled.", 0}, //14
-                {"Unbreakable focus", "Focus for 60 minutes with focus mode enabled.", 0}, //15
-                {"Still here?", "Keep the stopwatch running for 45 minutes.", 0}, //16
-
-                {"Are you machine?", "Complete 100 focus sessions.", 1}, //17
+                {"Are you machine?", "Complete 100 focus sessions.", 1}, //17 -
                 {"Insane focus", "Focus for 2 hours with focus mode enabled.", 1},  //18
                 {"Just one more minute", "Keep the stopwatch running for 2 minutes.", 1}, //19
                 {"Time flies", "Keep the stopwatch running for 15 minutes.", 1}, //20
@@ -194,7 +193,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 {"Do you forget to turn off the timer?", "Focus for 3 hours or more.", 1}, //22
                 {"That didn’t last long", "Stop the stopwatch after less than 10 seconds.", 1}, //23
                 {"Distracted already", "Stop a session before reaching 1 minute.", 1}, //24
-                {"Give up", "Leave the app whene the focuse mode is on.", 1}, //25
+                {"Give up", "Leave the app whene the focuse mode is enable.", 1}, //25
         };
 
         for (Object[] achievement : achievements) {
@@ -268,6 +267,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getAllSessions() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM " + TABLE_SESSIONS + " ORDER BY id DESC", null);
+    }
+
+    public int getNumOfSessions(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT COUNT("+COL_ID+") FROM "+TABLE_SESSIONS,null);
+
+        return c.getInt(0);
     }
 
     public void deleteSession(int id){

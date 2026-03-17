@@ -143,20 +143,7 @@ public class Timer extends AppCompatActivity{
 
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-            int achId = 2;
-            Cursor c = dbHelper.getAchivement(achId);
-
-            if (c != null && c.moveToFirst()) {
-                int unlockValue = c.getInt(c.getColumnIndexOrThrow("unlock"));
-                String name = c.getString(c.getColumnIndexOrThrow("name"));
-
-                if (unlockValue == 0) {
-                    dbHelper.unlockAchievement(achId);
-                    Notifications.pushNotification(this, "New trophy unlocked!",name, Doseski.class);
-                }
-            }
-
-            if (c != null) c.close();
+            checkAchivements(2);
 
             if (FocusManager.focusEnable)
             {
@@ -232,6 +219,8 @@ public class Timer extends AppCompatActivity{
             }
         }
 
+        checkAchivements(25);
+
         FocusManager.timerRunning = false;
         handler.removeCallbacks(runnable);
         lockHandler.removeCallbacks(lockChecker);
@@ -262,6 +251,8 @@ public class Timer extends AppCompatActivity{
             }
         }
 
+        if(FocusManager.focusEnable) checkAchivements(12);
+
         handler.removeCallbacks(runnable);
         lockHandler.removeCallbacks(lockChecker);
         graceCounter = 0;
@@ -285,7 +276,7 @@ public class Timer extends AppCompatActivity{
         if (c != null) c.close();
 
         long duration = seconds;
-        checkAchivements(duration);
+        checkMilestones(seconds);
 
         if (startTimeMillis != 0) {
             long endTimeMillis = System.currentTimeMillis();
@@ -306,21 +297,77 @@ public class Timer extends AppCompatActivity{
         saveTimerState();
         resetSavedTimer();
 
+        checkAchivements(3);
+
+        int n = dbHelper.getNumOfSessions();
+
+        switch (n){
+            case 5: checkAchivements(9);
+            case 10: checkAchivements(10);
+            case 50: checkAchivements(11);
+            case 100: checkAchivements(17);
+        }
+
     }
 
     private void checkMilestones(int seconds) {
-        int[] milestones = {300, 600, 1500, 1800, 3600}; // 5,10,25,30,60 min
 
-        for (int m : milestones) {
-      //      if (seconds >= m && !triggered.contains(m)) {
-        //        System.out.println("Reached: " + (m / 60) + " minutes");
-          //      triggered.add(m);
-           // }
+        if(seconds > 10) checkAchivements(23);
+        if(seconds > 60) checkAchivements(24);
+
+        switch (seconds){
+            case 300:
+                if(FocusManager.focusEnable){
+                    checkAchivements(13);
+                }else{
+                    checkAchivements(4);
+                }
+                break;
+
+            case 600:
+                if(FocusManager.focusEnable){
+                    checkAchivements(14);
+                }else{
+                    checkAchivements(5);
+                }
+                break;
+
+                case 1500:
+                    if(!FocusManager.focusEnable){
+                        checkAchivements(6);
+                    }
+
+                    break;
+                case 1800:
+                    if(FocusManager.focusEnable){
+                        checkAchivements(15);
+                    }else{
+                        checkAchivements(7);
+                    }
+            case 3600:
+                if(FocusManager.focusEnable){
+                    checkAchivements(16);
+                }else{
+                    checkAchivements(8);
+                }
+            default:
+                break;
         }
     }
 
-    private void checkAchivements(long duration){
+    private void checkAchivements(int achId){
 
+        Cursor c = dbHelper.getAchivement(achId);
+
+        if (c != null && c.moveToFirst()) {
+            int unlockValue = c.getInt(c.getColumnIndexOrThrow("unlock"));
+            String name = c.getString(c.getColumnIndexOrThrow("name"));
+
+            if (unlockValue == 0) {
+                dbHelper.unlockAchievement(achId);
+                Notifications.pushNotification(this, "New trophy unlocked!",name, Doseski.class);
+            }
+        }
     }
 
     private void hideUIButtons() {

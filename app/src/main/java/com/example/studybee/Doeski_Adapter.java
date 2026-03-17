@@ -58,7 +58,7 @@ public class Doeski_Adapter extends RecyclerView.Adapter<Doeski_Adapter.ViewHold
             holder.date.setText("Unlocked: " + dosezek.date);
         }
 
-        if(!dosezek.hidden){
+        if(!dosezek.hidden && !dosezek.unlocked){
             holder.description.setText("???????????");
             holder.date.setText("hidden trophy");
         }
