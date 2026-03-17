@@ -82,6 +82,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void resetDb(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SESSIONS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ACHIVEMENTS);
+        onCreate(db);
+    }
+
     public void createDefaultInput() {
         createDefaultUserIfNeeded();
         insertAchievements(); // Call to insert achievements
@@ -186,14 +194,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 {"Unbreakable focus", "Focus for 60 minutes with focus mode enabled.", 0}, //16 -
 
                 {"Are you machine?", "Complete 100 focus sessions.", 1}, //17 -
-                {"Insane focus", "Focus for 2 hours with focus mode enabled.", 1},  //18
-                {"Just one more minute", "Keep the stopwatch running for 2 minutes.", 1}, //19
-                {"Time flies", "Keep the stopwatch running for 15 minutes.", 1}, //20
-                {"Are you studying or what?", "Focus for 2 hours.", 1}, //21
-                {"Do you forget to turn off the timer?", "Focus for 3 hours or more.", 1}, //22
-                {"That didn’t last long", "Stop the stopwatch after less than 10 seconds.", 1}, //23
-                {"Distracted already", "Stop a session before reaching 1 minute.", 1}, //24
-                {"Give up", "Leave the app whene the focuse mode is enable.", 1}, //25
+                {"Insane focus", "Focus for 2 hours with focus mode enabled.", 1},  //18 -
+                {"That was fast", "Stop the stopwatch on focuse mode after less than 5 seconds", 1}, //19 -
+                {"Realy?", "Stop after 1 second", 1}, //20 -
+                {"Are you studying or what?", "Focus for 2 hours.", 1}, //21 -
+                {"Do you forget to turn off the timer?", "Focus for 3 hours or more.", 1}, //22 -
+                {"That didn’t last long", "Stop the stopwatch after less than 10 seconds.", 1}, //23 -
+                {"Distracted already", "Stop a session before reaching 1 minute.", 1}, //24 -
+                {"Give up", "Leave the app whene the focuse mode is enable.", 1}, //25 -
         };
 
         for (Object[] achievement : achievements) {
@@ -273,7 +281,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor c = db.rawQuery("SELECT COUNT("+COL_ID+") FROM "+TABLE_SESSIONS,null);
 
-        return c.getInt(0);
+        int count = 0;
+
+        if (c != null) {
+            if (c.moveToFirst()) {
+                count = c.getInt(0);
+            }
+            c.close();
+        }
+
+        return count;
     }
 
     public void deleteSession(int id){

@@ -50,6 +50,8 @@ public class Home extends AppCompatActivity {
                 dbHelper.unlockAchievement(achId);
                 Notifications.pushNotification(this, "New trophy unlocked!",name, Home.class);
             }
+        }else{
+            Notifications.pushNotification(this, "jeab","nah", Home.class);
         }
 
         if (c != null) c.close();

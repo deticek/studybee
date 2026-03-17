@@ -206,11 +206,6 @@ public class Timer extends AppCompatActivity{
     }
 
     private void stopTimerDueToExit() {
-        Toast.makeText(this, "You left the app! Timer stopped.", Toast.LENGTH_LONG).show();
-        Notifications.pushNotification(this, "Timer Stopped", "You left the app!", Timer.class);
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        startstop = false;
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -219,7 +214,13 @@ public class Timer extends AppCompatActivity{
             }
         }
 
+        Toast.makeText(this, "You left the app! Timer stopped.", Toast.LENGTH_LONG).show();
+        Notifications.pushNotification(this, "Timer Stopped", "You left the app!", Timer.class);
         checkAchivements(25);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        startstop = false;
+
+
 
         FocusManager.timerRunning = false;
         handler.removeCallbacks(runnable);
@@ -302,56 +303,73 @@ public class Timer extends AppCompatActivity{
         int n = dbHelper.getNumOfSessions();
 
         switch (n){
-            case 5: checkAchivements(9);
+            case 5:
+                checkAchivements(9);
+                break;
             case 10: checkAchivements(10);
+                break;
             case 50: checkAchivements(11);
+                break;
             case 100: checkAchivements(17);
+                break;
+            default:
+                break;
         }
 
     }
 
     private void checkMilestones(int seconds) {
 
-        if(seconds > 10) checkAchivements(23);
-        if(seconds > 60) checkAchivements(24);
+        if(seconds == 1) checkAchivements(20);
+        if(seconds < 10 && seconds > 5) checkAchivements(23);
+        if(seconds < 60 && seconds > 10) checkAchivements(24);
+        if(seconds < 5 && FocusManager.focusEnable && seconds > 1) checkAchivements(19);
+        if(seconds >= 10800) checkAchivements(22);
 
-        switch (seconds){
-            case 300:
-                if(FocusManager.focusEnable){
-                    checkAchivements(13);
-                }else{
-                    checkAchivements(4);
-                }
-                break;
+        if (seconds == 300) {
+            if (FocusManager.focusEnable) {
+                checkAchivements(13);
+            } else {
+                checkAchivements(4);
+            }
+        }
 
-            case 600:
-                if(FocusManager.focusEnable){
-                    checkAchivements(14);
-                }else{
-                    checkAchivements(5);
-                }
-                break;
+        if (seconds == 600) {
+            if (FocusManager.focusEnable) {
+                checkAchivements(14);
+            } else {
+                checkAchivements(5);
+            }
+        }
 
-                case 1500:
-                    if(!FocusManager.focusEnable){
-                        checkAchivements(6);
-                    }
+        if (seconds == 1500) {
+            if (!FocusManager.focusEnable) {
+                checkAchivements(6);
+            }
+        }
 
-                    break;
-                case 1800:
-                    if(FocusManager.focusEnable){
-                        checkAchivements(15);
-                    }else{
-                        checkAchivements(7);
-                    }
-            case 3600:
-                if(FocusManager.focusEnable){
-                    checkAchivements(16);
-                }else{
-                    checkAchivements(8);
-                }
-            default:
-                break;
+        if (seconds == 1800) {
+            if (FocusManager.focusEnable) {
+                checkAchivements(15);
+            } else {
+                checkAchivements(7);
+            }
+        }
+
+        if (seconds == 3600) {
+            if (FocusManager.focusEnable) {
+                checkAchivements(16);
+            } else {
+                checkAchivements(8);
+            }
+        }
+
+        if (seconds == 7200) {
+            if (FocusManager.focusEnable) {
+                checkAchivements(18);
+            }else{
+                checkAchivements(21);
+            }
         }
     }
 

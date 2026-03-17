@@ -76,8 +76,7 @@ public class Nastavitve extends AppCompatActivity {
         }
 
         // 2. Izbriši vse podatke iz baze
-        dbHelper.getWritableDatabase().delete(DatabaseHelper.TABLE_SESSIONS, null, null);
-        dbHelper.getWritableDatabase().delete(DatabaseHelper.TABLE_USER, null, null);
+       dbHelper.resetDb();
         System.out.println("Vsa baza izbrisana");
 
     }
