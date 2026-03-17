@@ -1,6 +1,7 @@
 package com.example.studybee;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -30,8 +31,28 @@ public class Home extends AppCompatActivity {
         // Inicializiraj dbHelper preden ga uporabiš
         dbHelper = new DatabaseHelper(this);
 
-        hoursofstudy();   // preberi vsebino iz baze in izpiši
+        hoursofstudy();
         getquotes();
+
+        checkfirst();
+
+    }
+
+    private void checkfirst() {
+        int achId = 1;
+        Cursor c = dbHelper.getAchivement(achId);
+
+        if (c != null && c.moveToFirst()) {
+            int unlockValue = c.getInt(c.getColumnIndexOrThrow("unlock"));
+            String name = c.getString(c.getColumnIndexOrThrow("name"));
+
+            if (unlockValue == 0) {
+                dbHelper.unlockAchievement(achId);
+                Notifications.pushNotification(this, "New trophy unlocked!",name, Home.class);
+            }
+        }
+
+        if (c != null) c.close();
     }
 
     private void getquotes(){

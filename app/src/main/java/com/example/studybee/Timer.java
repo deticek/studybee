@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -142,6 +143,21 @@ public class Timer extends AppCompatActivity{
 
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+            int achId = 2;
+            Cursor c = dbHelper.getAchivement(achId);
+
+            if (c != null && c.moveToFirst()) {
+                int unlockValue = c.getInt(c.getColumnIndexOrThrow("unlock"));
+                String name = c.getString(c.getColumnIndexOrThrow("name"));
+
+                if (unlockValue == 0) {
+                    dbHelper.unlockAchievement(achId);
+                    Notifications.pushNotification(this, "New trophy unlocked!",name, Doseski.class);
+                }
+            }
+
+            if (c != null) c.close();
+
             if (FocusManager.focusEnable)
             {
                 findViewById(R.id.obvestilo).setVisibility(View.VISIBLE);
@@ -253,13 +269,31 @@ public class Timer extends AppCompatActivity{
         findViewById(R.id.obvestilo).setVisibility(View.GONE);
         showUIButtons();
 
+        int achId = 3;
+        Cursor c = dbHelper.getAchivement(achId);
+
+        if (c != null && c.moveToFirst()) {
+            int unlockValue = c.getInt(c.getColumnIndexOrThrow("unlock"));
+            String name = c.getString(c.getColumnIndexOrThrow("name"));
+
+            if (unlockValue == 0) {
+                dbHelper.unlockAchievement(achId);
+                Notifications.pushNotification(this, "New trophy unlocked!",name, Doseski.class);
+            }
+        }
+
+        if (c != null) c.close();
+
+        long duration = seconds;
+        checkAchivements(duration);
+
         if (startTimeMillis != 0) {
             long endTimeMillis = System.currentTimeMillis();
             String startTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault())
                     .format(new Date(startTimeMillis));
             String endTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault())
                     .format(new Date(endTimeMillis));
-            long duration = seconds;
+
             String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                     .format(new Date());
             dbHelper.insertSession(startTime, endTime, duration, date);
@@ -271,6 +305,21 @@ public class Timer extends AppCompatActivity{
         s.setText("Start");
         saveTimerState();
         resetSavedTimer();
+
+    }
+
+    private void checkMilestones(int seconds) {
+        int[] milestones = {300, 600, 1500, 1800, 3600}; // 5,10,25,30,60 min
+
+        for (int m : milestones) {
+      //      if (seconds >= m && !triggered.contains(m)) {
+        //        System.out.println("Reached: " + (m / 60) + " minutes");
+          //      triggered.add(m);
+           // }
+        }
+    }
+
+    private void checkAchivements(long duration){
 
     }
 
