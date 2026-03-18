@@ -45,19 +45,42 @@ public class Timer extends AppCompatActivity{
 
     boolean firstCheck =false;
     int graceCounter = 0; // milliseconds
+    int ssecends=0;
+
+    boolean isCountdown = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.timer);
 
         dbHelper = new DatabaseHelper(this);
+        isCountdown = dbHelper.getTimerMode();
+
+        if(!isCountdown){
+            setContentView(R.layout.timer);
+        }else{
+            setContentView(R.layout.countdown);
+        }
+
         t = findViewById(R.id.timer);
         s = findViewById(R.id.startbutton);
 
         SharedPreferences prefs = getSharedPreferences("timerPrefs", MODE_PRIVATE);
-        seconds = prefs.getInt("seconds", 0);
+        int savedSeconds = prefs.getInt("seconds", -1); // -1 pomeni, da še ni nič shranjeno
+
+        if(savedSeconds == -1) {
+            // prvi zagon
+            seconds = isCountdown ? 45*60 : 0;
+        } else {
+            // če je countdown in je shranjeno 0 → reset na default
+            if(isCountdown && savedSeconds <= 0){
+                seconds = 45*60;
+            } else {
+                seconds = savedSeconds;
+            }
+        }
+
         startstop = prefs.getBoolean("running", false);
         startTimeMillis = prefs.getLong("startTimeMillis", 0);
 
@@ -67,12 +90,24 @@ public class Timer extends AppCompatActivity{
         runnable = new Runnable() {
             @Override
             public void run() {
-                if (startstop) {
+                if (!startstop) return;
+
+                ssecends++;
+
+                if (isCountdown) {
+                    if (seconds > 0) {
+                        seconds--;
+                    } else {
+                        onCountdownFinished();
+                        return;
+                    }
+                } else {
                     seconds++;
-                    t.setText(formatTime(seconds));
-                    saveTimerState();
-                    handler.postDelayed(this, 1000);
                 }
+
+                t.setText(formatTime(seconds));
+                saveTimerState();
+                handler.postDelayed(this, 1000);
             }
         };
 
@@ -119,6 +154,10 @@ public class Timer extends AppCompatActivity{
         }
     }
 
+    public void resetTime(){
+        
+    }
+
     private String formatTime(int totalSeconds) {
         int h = totalSeconds / 3600;
         int m = (totalSeconds % 3600) / 60;
@@ -126,13 +165,33 @@ public class Timer extends AppCompatActivity{
         return String.format(Locale.getDefault(), "%02d:%02d:%02d", h, m, s);
     }
 
+    private void onCountdownFinished() {
+        pauseTimer();
+        Toast.makeText(this, "Countdown finished!", Toast.LENGTH_SHORT).show();
+        Notifications.pushNotification(this,
+                "Timer finished",
+                "Your countdown is done!",
+                Timer.class
+        );
+        seconds = 45 * 60; // reset na default
+        ssecends=0;
+        t.setText(formatTime(seconds));
+        s.setText("Start");
+        saveTimerState();
+    }
+
     private void resetSavedTimer() {
-        getSharedPreferences("timerPrefs", MODE_PRIVATE)
-                .edit()
-                .putInt("seconds", 0)
-                .putBoolean("running", false)
-                .putLong("startTimeMillis", 0)
-                .apply();
+        SharedPreferences.Editor editor = getSharedPreferences("timerPrefs", MODE_PRIVATE).edit();
+
+        if (isCountdown) {
+            editor.putInt("seconds", 45 * 60); // countdown default
+        } else {
+            editor.putInt("seconds", 0); // stopwatch default
+        }
+
+        editor.putBoolean("running", false);
+        editor.putLong("startTimeMillis", 0);
+        editor.apply();
     }
 
     public void startstop(View v) {
@@ -230,7 +289,10 @@ public class Timer extends AppCompatActivity{
         findViewById(R.id.obvestilo).setVisibility(View.GONE);
         showUIButtons();
 
-        seconds = 0;
+
+        seconds = isCountdown?0:45*60;
+
+        ssecends=0;
         startTimeMillis = 0;
         t.setText("00:00:00");
         s.setText("Start");
@@ -277,7 +339,7 @@ public class Timer extends AppCompatActivity{
         if (c != null) c.close();
 
         long duration = seconds;
-        checkMilestones(seconds);
+        checkMilestones(ssecends);
 
         if (startTimeMillis != 0) {
             long endTimeMillis = System.currentTimeMillis();
@@ -292,6 +354,8 @@ public class Timer extends AppCompatActivity{
         }
 
         seconds = 0;
+        ssecends=0;
+
         startTimeMillis = 0;
         t.setText("00:00:00");
         s.setText("Start");
@@ -318,15 +382,15 @@ public class Timer extends AppCompatActivity{
 
     }
 
-    private void checkMilestones(int seconds) {
+    private void checkMilestones(int sec) {
 
-        if(seconds == 1) checkAchivements(20);
-        if(seconds < 10 && seconds > 5) checkAchivements(23);
-        if(seconds < 60 && seconds > 10) checkAchivements(24);
-        if(seconds < 5 && FocusManager.focusEnable && seconds > 1) checkAchivements(19);
-        if(seconds >= 10800) checkAchivements(22);
+        if(sec == 1) checkAchivements(20);
+        if(sec < 10 && sec > 5) checkAchivements(23);
+        if(sec < 60 && sec > 10) checkAchivements(24);
+        if(sec < 5 && FocusManager.focusEnable && sec > 1) checkAchivements(19);
+        if(sec >= 10800) checkAchivements(22);
 
-        if (seconds == 300) {
+        if (sec == 300) {
             if (FocusManager.focusEnable) {
                 checkAchivements(13);
             } else {
@@ -334,7 +398,7 @@ public class Timer extends AppCompatActivity{
             }
         }
 
-        if (seconds == 600) {
+        if (sec == 600) {
             if (FocusManager.focusEnable) {
                 checkAchivements(14);
             } else {
@@ -342,13 +406,13 @@ public class Timer extends AppCompatActivity{
             }
         }
 
-        if (seconds == 1500) {
+        if (sec == 1500) {
             if (!FocusManager.focusEnable) {
                 checkAchivements(6);
             }
         }
 
-        if (seconds == 1800) {
+        if (sec == 1800) {
             if (FocusManager.focusEnable) {
                 checkAchivements(15);
             } else {
@@ -356,7 +420,7 @@ public class Timer extends AppCompatActivity{
             }
         }
 
-        if (seconds == 3600) {
+        if (sec == 3600) {
             if (FocusManager.focusEnable) {
                 checkAchivements(16);
             } else {
@@ -364,7 +428,7 @@ public class Timer extends AppCompatActivity{
             }
         }
 
-        if (seconds == 7200) {
+        if (sec == 7200) {
             if (FocusManager.focusEnable) {
                 checkAchivements(18);
             }else{

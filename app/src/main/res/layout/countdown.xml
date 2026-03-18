@@ -90,7 +90,7 @@
         android:id="@+id/timer"
         android:layout_width="404dp"
         android:layout_height="155dp"
-        android:text="45:00"
+        android:text="00:45:00"
         android:textAlignment="center"
         android:textColor="@color/besedilosvetlo"
         android:textSize="80dp"
@@ -117,6 +117,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.622" />
+
+    <Button
+        android:id="@+id/defaultt"
+        android:layout_width="159dp"
+        android:layout_height="67dp"
+        android:background="@drawable/buttonborder"
+        android:letterSpacing="0.06"
+        android:onClick="resettodefault"
+        android:text="Default"
+        android:textColor="@color/besedilosvetlo"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.444" />
 
     <Button
         android:id="@+id/button4"
@@ -152,12 +168,13 @@
         app:layout_constraintVertical_bias="0.184" />
 
     <ImageButton
-        android:id="@+id/addless"
+        android:id="@+id/addmore"
         android:layout_width="67dp"
         android:layout_height="67dp"
         android:background="@drawable/buttonborder"
         android:contentDescription="settingsbutton"
-        android:onClick="goback"
+        android:onClick="addtime"
+        android:rotation="90"
         android:scaleType="fitCenter"
         android:src="@drawable/arrow_left"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -168,13 +185,14 @@
         app:layout_constraintVertical_bias="0.444" />
 
     <ImageButton
-        android:id="@+id/addmore"
+        android:id="@+id/addless"
         android:layout_width="67dp"
         android:layout_height="67dp"
         android:background="@drawable/buttonborder"
         android:contentDescription="settingsbutton"
-        android:onClick="goback"
+        android:onClick="removetime"
         android:scaleType="fitCenter"
+        android:rotation="-90"
         android:src="@drawable/arrow_left"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
