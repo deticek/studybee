@@ -36,6 +36,8 @@ public class Timer extends AppCompatActivity{
     int seconds = 0;
     long startTimeMillis = 0;
 
+    int defultTime=0;
+
     DatabaseHelper dbHelper;
     Handler handler = new Handler(Looper.getMainLooper());
     Runnable runnable;
@@ -56,6 +58,7 @@ public class Timer extends AppCompatActivity{
 
         dbHelper = new DatabaseHelper(this);
         isCountdown = dbHelper.getTimerMode();
+        defultTime = dbHelper.getDefaultTime();
 
         if(!isCountdown){
             setContentView(R.layout.timer);
@@ -71,11 +74,11 @@ public class Timer extends AppCompatActivity{
 
         if(savedSeconds == -1) {
             // prvi zagon
-            seconds = isCountdown ? 45*60 : 0;
+            seconds = isCountdown ? defultTime*60 : 0;
         } else {
             // če je countdown in je shranjeno 0 → reset na default
             if(isCountdown && savedSeconds <= 0){
-                seconds = 45*60;
+                seconds = defultTime*60;
             } else {
                 seconds = savedSeconds;
             }
@@ -98,7 +101,7 @@ public class Timer extends AppCompatActivity{
                     if (seconds > 0) {
                         seconds--;
                     } else {
-                        onCountdownFinished();
+                        koncajtimer();
                         return;
                     }
                 } else {
@@ -139,6 +142,8 @@ public class Timer extends AppCompatActivity{
             handler.post(runnable);
             if (FocusManager.focusEnable) lockHandler.post(lockChecker);
         }
+
+        resetText();
     }
 
     private void sendNotification(){
@@ -154,10 +159,6 @@ public class Timer extends AppCompatActivity{
         }
     }
 
-    public void resetTime(){
-        
-    }
-
     private String formatTime(int totalSeconds) {
         int h = totalSeconds / 3600;
         int m = (totalSeconds % 3600) / 60;
@@ -165,26 +166,11 @@ public class Timer extends AppCompatActivity{
         return String.format(Locale.getDefault(), "%02d:%02d:%02d", h, m, s);
     }
 
-    private void onCountdownFinished() {
-        pauseTimer();
-        Toast.makeText(this, "Countdown finished!", Toast.LENGTH_SHORT).show();
-        Notifications.pushNotification(this,
-                "Timer finished",
-                "Your countdown is done!",
-                Timer.class
-        );
-        seconds = 45 * 60; // reset na default
-        ssecends=0;
-        t.setText(formatTime(seconds));
-        s.setText("Start");
-        saveTimerState();
-    }
-
     private void resetSavedTimer() {
         SharedPreferences.Editor editor = getSharedPreferences("timerPrefs", MODE_PRIVATE).edit();
 
         if (isCountdown) {
-            editor.putInt("seconds", 45 * 60); // countdown default
+            editor.putInt("seconds", defultTime * 60); // countdown default
         } else {
             editor.putInt("seconds", 0); // stopwatch default
         }
@@ -192,6 +178,32 @@ public class Timer extends AppCompatActivity{
         editor.putBoolean("running", false);
         editor.putLong("startTimeMillis", 0);
         editor.apply();
+        resetText();
+    }
+
+    public void addtime(View v){
+        dbHelper.setDefultTime(defultTime+5);
+        defultTime= dbHelper.getDefaultTime();
+        resetText();
+    }
+
+    public void removetime(View v){
+        if(defultTime-5 >=5){
+            dbHelper.setDefultTime(defultTime-5);
+            defultTime= dbHelper.getDefaultTime();
+        }
+        resetText();
+    }
+
+    public void resettodefault(View v){
+        dbHelper.setDefultTime(45);
+        defultTime = dbHelper.getDefaultTime();
+        resetText();
+    }
+
+    private void resetText(){
+        seconds = !isCountdown?0:defultTime*60;
+        t.setText(formatTime(seconds));
     }
 
     public void startstop(View v) {
@@ -290,18 +302,23 @@ public class Timer extends AppCompatActivity{
         showUIButtons();
 
 
-        seconds = isCountdown?0:45*60;
+        seconds = isCountdown?0:defultTime*60;
 
         ssecends=0;
         startTimeMillis = 0;
-        t.setText("00:00:00");
+        t.setText(formatTime(seconds));
         s.setText("Start");
 
         resetSavedTimer();
 
     }
 
-    public void koncajtimer(View v) {
+    public void fertik(View v){
+        koncajtimer();
+    }
+
+    public void koncajtimer() {
+
         startstop = false;
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         FocusManager.timerRunning = false;
@@ -314,6 +331,9 @@ public class Timer extends AppCompatActivity{
             }
         }
 
+        SoundPlayer sp = new SoundPlayer();
+        sp.playSound(this, dbHelper.getSound());
+
         if(FocusManager.focusEnable) checkAchivements(12);
 
         handler.removeCallbacks(runnable);
@@ -323,22 +343,9 @@ public class Timer extends AppCompatActivity{
         findViewById(R.id.obvestilo).setVisibility(View.GONE);
         showUIButtons();
 
-        int achId = 3;
-        Cursor c = dbHelper.getAchivement(achId);
+        checkAchivements(3);
 
-        if (c != null && c.moveToFirst()) {
-            int unlockValue = c.getInt(c.getColumnIndexOrThrow("unlock"));
-            String name = c.getString(c.getColumnIndexOrThrow("name"));
-
-            if (unlockValue == 0) {
-                dbHelper.unlockAchievement(achId);
-                Notifications.pushNotification(this, "New trophy unlocked!",name, Doseski.class);
-            }
-        }
-
-        if (c != null) c.close();
-
-        long duration = seconds;
+        long duration = ssecends;
         checkMilestones(ssecends);
 
         if (startTimeMillis != 0) {
@@ -353,11 +360,11 @@ public class Timer extends AppCompatActivity{
             dbHelper.insertSession(startTime, endTime, duration, date);
         }
 
-        seconds = 0;
+        seconds = isCountdown ? defultTime*60 : 0;
         ssecends=0;
 
         startTimeMillis = 0;
-        t.setText("00:00:00");
+        t.setText(formatTime(seconds));
         s.setText("Start");
         saveTimerState();
         resetSavedTimer();

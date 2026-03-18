@@ -123,7 +123,7 @@
         android:layout_width="331dp"
         android:layout_height="104dp"
         android:letterSpacing="0.06"
-        android:onClick="koncajtimer"
+        android:onClick="fertik"
         android:text="End timer"
         android:textColor="@color/svetlobela"
         android:textSize="40dp"

@@ -111,8 +111,6 @@ public class Nastavitve extends AppCompatActivity {
         String text;
 
         if(FocusManager.focusEnable){
-
-
             FocusManager.focusEnable = false;
             title="Focus Mode Deactivated";
             text="When you will turn on the timer you will be able to leave the app.";
@@ -141,6 +139,11 @@ public class Nastavitve extends AppCompatActivity {
         nastaviNapisFocus();
         Notifications.pushNotification(this, title,text, Nastavitve.class);
 
+    }
+
+    public void soundsettings(View v){
+        Intent i = new Intent(this, Sound.class);
+        startActivity(i);
     }
 
     public void letsi(View v){

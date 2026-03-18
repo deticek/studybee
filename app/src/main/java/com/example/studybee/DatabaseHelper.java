@@ -32,6 +32,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_USERNAME = "username";
     public static final String COL_FOCUSMODE = "focus"; // 0/1 integer
     public static final String COL_MODE = "mode";
+    public static final String COL_DEFULTTIME="defaulttime";
+    public static final String COL_SOUND="sound";
+    public static final String COL_BGMODE="bgmode";
+    public static final String COL_BGSOUND="bgsound";
 
     // ------------ ACHIVMENTS TABLE -------------------
 
@@ -61,6 +65,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String CREATE_TABLE_USER = "CREATE TABLE IF NOT EXISTS " + TABLE_USER +
                 " (" + COL_USERNAME + " TEXT, " +
                 COL_FOCUSMODE + " INTEGER, "+
+                COL_DEFULTTIME + " INTEGER DEFAULT 45, "+
+                COL_SOUND + " INTEGER DEFAULT 1, "+
+                COL_BGMODE + " INTEGER DEFAULT 0, "+
+                COL_BGSOUND + " INTEGER DEFAULT 1, "+
                 COL_MODE + " INTEGER)";
         db.execSQL(CREATE_TABLE_USER);
 
@@ -109,6 +117,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(COL_USERNAME, "User");
             values.put(COL_FOCUSMODE, 0);
             values.put(COL_MODE,0);
+            values.put(COL_DEFULTTIME,45);
+            values.put(COL_SOUND,1);
+            values.put(COL_BGMODE,0);
+            values.put(COL_BGSOUND,1);
             db.insert(TABLE_USER, null, values);
         }
 
@@ -142,11 +154,109 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return username;
     }
 
+    // defaulttime functions
+    public boolean setDefultTime(int num){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_DEFULTTIME, num);
+
+        int rows = db.update(TABLE_USER, values, null, null);
+        return rows > 0;
+    }
+    public int getDefaultTime(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT " + COL_DEFULTTIME + " FROM " + TABLE_USER + " LIMIT 1",
+                null
+        );
+        int focus = 45;
+        if(cursor.moveToFirst()){
+            focus = cursor.getInt(0);
+        }
+        cursor.close();
+        return focus;
+    }
+
+
+    // sound functions
+    public boolean setSound(int num){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_SOUND, num);
+
+        int rows = db.update(TABLE_USER, values, null, null);
+        return rows > 0;
+    }
+    public int getSound(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT " + COL_SOUND + " FROM " + TABLE_USER + " LIMIT 1",
+                null
+        );
+        int focus = 45;
+        if(cursor.moveToFirst()){
+            focus = cursor.getInt(0);
+        }
+        cursor.close();
+        return focus;
+    }
+
+    // bg noise sound functions
+
+    public boolean setBgSound(int num){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_BGSOUND, num);
+
+        int rows = db.update(TABLE_USER, values, null, null);
+        return rows > 0;
+    }
+    public int getBgSound(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT " + COL_BGSOUND + " FROM " + TABLE_USER + " LIMIT 1",
+                null
+        );
+        int focus = 45;
+        if(cursor.moveToFirst()){
+            focus = cursor.getInt(0);
+        }
+        cursor.close();
+        return focus;
+    }
+
+    // bg sound mode functions
+
+    public boolean setBgMode(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        boolean focus = getBgMode();
+        values.put(COL_BGMODE, focus ? 0 : 1);
+
+        int rows = db.update(TABLE_USER, values, null, null);
+        return rows > 0;
+    }
+    public boolean getBgMode(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT " + COL_BGMODE + " FROM " + TABLE_USER + " LIMIT 1",
+                null
+        );
+
+        boolean timer = false;
+        if(cursor.moveToFirst()){
+            timer = cursor.getInt(0) == 1;
+        }
+
+        cursor.close();
+        return timer;
+    }
+
     // Set focus mode
     public boolean setFocusMode(boolean focus){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COL_FOCUSMODE, focus ? 0 : 1);
+        values.put(COL_FOCUSMODE, focus ? 1 : 0);
 
         int rows = db.update(TABLE_USER, values, null, null);
         return rows > 0;

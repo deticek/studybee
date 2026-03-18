@@ -90,55 +90,8 @@
         tools:text="Settings" />
 
     <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="izbrisidata"
-        android:text="Delete data"
-        android:textColor="@color/svetlobela"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.771" />
-
-    <Button
-        android:id="@+id/focusbutton"
-        android:layout_width="352dp"
-        android:layout_height="72dp"
-        android:onClick="fokus"
-        android:text=" FOCUSE MODE: true"
-        android:textColor="@color/svetlobela"
-        android:textSize="28dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
-
-    <Button
-        android:id="@+id/doseski"
-        android:layout_width="352dp"
-        android:layout_height="72dp"
-        android:onClick="letsi"
-        android:text="Achievements"
-        android:textAllCaps="true"
-        android:textColor="@color/svetlobela"
-        android:textSize="28dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.625" />
-
-    <Button
         android:id="@+id/analiza"
-        android:layout_width="352dp"
+        android:layout_width="358dp"
         android:layout_height="72dp"
         android:onClick="change"
         android:text="change timer mode"
@@ -148,10 +101,96 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.274" />
+        app:layout_constraintVertical_bias="0.22" />
+
+    <Button
+        android:id="@+id/focusbutton"
+        android:layout_width="358dp"
+        android:layout_height="72dp"
+        android:onClick="fokus"
+        android:text=" FOCUSE MODE: true"
+        android:textColor="@color/svetlobela"
+        android:textSize="28dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.335" />
+
+    <Button
+        android:id="@+id/doseski"
+        android:layout_width="358dp"
+        android:layout_height="72dp"
+        android:onClick="letsi"
+        android:text="Achievements"
+        android:textAllCaps="true"
+        android:textColor="@color/svetlobela"
+        android:textSize="28dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.474"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.45" />
+
+    <Button
+        android:id="@+id/sound"
+        android:layout_width="358dp"
+        android:layout_height="72dp"
+        android:onClick="soundsettings"
+        android:text="Sound Effects"
+        android:textAllCaps="true"
+        android:textColor="@color/svetlobela"
+        android:textSize="28dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.474"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.566" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="358dp"
+        android:layout_height="72dp"
+        android:onClick="bgsound"
+        android:text="Session Sound"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/svetlobela"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.68" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="358dp"
+        android:layout_height="72dp"
+        android:onClick="izbrisidata"
+        android:text="Delete data"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/svetlobela"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.474"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8" />
 
     <TextView
         android:id="@+id/miniinfo"
