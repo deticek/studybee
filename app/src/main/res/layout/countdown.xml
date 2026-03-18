@@ -10,7 +10,6 @@
         android:layout_width="85dp"
         android:layout_height="85dp"
         android:background="@drawable/buttonborder"
-
         android:contentDescription="urabutton"
         android:onClick="cas"
         android:scaleType="fitCenter"
@@ -42,7 +41,7 @@
         android:id="@+id/homeb"
         android:layout_width="85dp"
         android:layout_height="85dp"
-
+        android:background="@drawable/buttonborder"
         android:contentDescription="homebutton"
         android:onClick="kuci"
         android:scaleType="fitCenter"
@@ -52,7 +51,6 @@
         app:layout_constraintHorizontal_bias="0.049"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/buttonborder"
         app:layout_constraintVertical_bias="0.975" />
 
     <ImageButton
@@ -60,7 +58,6 @@
         android:layout_width="85dp"
         android:layout_height="85dp"
         android:background="@drawable/buttonborder"
-
         android:contentDescription="colendarbutton"
         android:onClick="infotocka"
         android:scaleType="fitCenter"
@@ -74,100 +71,116 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="352dp"
-        android:layout_height="67dp"
-        android:text="Settings"
+        android:layout_width="385dp"
+        android:layout_height="90dp"
+        android:text="Start a timer"
         android:textAlignment="center"
         android:textColor="@color/besedilosvetlo"
-        android:textSize="45dp"
+        android:textSize="60dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.052"
-        tools:text="Settings" />
+        app:layout_constraintVertical_bias="0.045"
+        tools:text="StudyBee" />
+
+    <TextView
+        android:id="@+id/timer"
+        android:layout_width="404dp"
+        android:layout_height="155dp"
+        android:text="45:00"
+        android:textAlignment="center"
+        android:textColor="@color/besedilosvetlo"
+        android:textSize="80dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.319" />
 
     <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="izbrisidata"
-        android:text="Delete data"
+        android:id="@+id/startbutton"
+        android:layout_width="331dp"
+        android:layout_height="104dp"
+        android:letterSpacing="0.06"
+        android:text="Start"
         android:textColor="@color/svetlobela"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:onClick="startstop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.622" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="331dp"
+        android:layout_height="104dp"
+        android:letterSpacing="0.06"
+        android:onClick="koncajtimer"
+        android:text="End timer"
+        android:textColor="@color/svetlobela"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.800" />
+
+    <TextView
+        android:id="@+id/obvestilo"
+        android:layout_width="410dp"
+        android:layout_height="55dp"
+        android:visibility="gone"
+        android:text="FOCUSE MODE IS ON.                                    YOU CAN NOT LEAVE THE APP"
+        android:textColor="@color/rdeca"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.771" />
+        app:layout_constraintVertical_bias="0.184" />
 
-    <Button
-        android:id="@+id/focusbutton"
-        android:layout_width="352dp"
-        android:layout_height="72dp"
-        android:onClick="fokus"
-        android:text=" FOCUSE MODE: true"
-        android:textColor="@color/svetlobela"
-        android:textSize="28dp"
-        android:textStyle="bold"
+    <ImageButton
+        android:id="@+id/addless"
+        android:layout_width="67dp"
+        android:layout_height="67dp"
+        android:background="@drawable/buttonborder"
+        android:contentDescription="settingsbutton"
+        android:onClick="goback"
+        android:scaleType="fitCenter"
+        android:src="@drawable/arrow_left"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintHorizontal_bias="0.883"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintVertical_bias="0.444" />
 
-    <Button
-        android:id="@+id/doseski"
-        android:layout_width="352dp"
-        android:layout_height="72dp"
-        android:onClick="letsi"
-        android:text="Achievements"
-        android:textAllCaps="true"
-        android:textColor="@color/svetlobela"
-        android:textSize="28dp"
-        android:textStyle="bold"
+    <ImageButton
+        android:id="@+id/addmore"
+        android:layout_width="67dp"
+        android:layout_height="67dp"
+        android:background="@drawable/buttonborder"
+        android:contentDescription="settingsbutton"
+        android:onClick="goback"
+        android:scaleType="fitCenter"
+        android:src="@drawable/arrow_left"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.116"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.625" />
-
-    <Button
-        android:id="@+id/analiza"
-        android:layout_width="352dp"
-        android:layout_height="72dp"
-        android:onClick="change"
-        android:text="change timer mode"
-        android:textAllCaps="true"
-        android:textColor="@color/svetlobela"
-        android:textSize="28dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.274" />
-
-    <TextView
-        android:id="@+id/miniinfo"
-        android:layout_width="351dp"
-        android:layout_height="33dp"
-        android:text="Timer mode: stopwatch"
-        android:textAlignment="center"
-        android:textColor="@color/besedilosvetlo"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.161"/>
-
+        app:layout_constraintVertical_bias="0.444" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

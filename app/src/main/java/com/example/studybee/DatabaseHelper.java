@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "studybee.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     // ----------- SESSIONS TABLE -----------
     public static final String TABLE_SESSIONS = "sessions";
@@ -31,6 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_USER = "User";
     public static final String COL_USERNAME = "username";
     public static final String COL_FOCUSMODE = "focus"; // 0/1 integer
+    public static final String COL_MODE = "mode";
 
     // ------------ ACHIVMENTS TABLE -------------------
 
@@ -59,7 +60,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // User table
         String CREATE_TABLE_USER = "CREATE TABLE IF NOT EXISTS " + TABLE_USER +
                 " (" + COL_USERNAME + " TEXT, " +
-                COL_FOCUSMODE + " INTEGER)";
+                COL_FOCUSMODE + " INTEGER, "+
+                COL_MODE + " INTEGER)";
         db.execSQL(CREATE_TABLE_USER);
 
         // Achievements table
@@ -106,6 +108,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(COL_USERNAME, "User");
             values.put(COL_FOCUSMODE, 0);
+            values.put(COL_MODE,0);
             db.insert(TABLE_USER, null, values);
         }
 
@@ -143,7 +146,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean setFocusMode(boolean focus){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COL_FOCUSMODE, focus ? 1 : 0);
+        values.put(COL_FOCUSMODE, focus ? 0 : 1);
 
         int rows = db.update(TABLE_USER, values, null, null);
         return rows > 0;
@@ -164,6 +167,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         cursor.close();
         return focus;
+    }
+
+    // mode function
+
+    public boolean setTimerMode(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        boolean focus = getTimerMode();
+        values.put(COL_MODE, focus ? 0 : 1);
+
+        int rows = db.update(TABLE_USER, values, null, null);
+        return rows > 0;
+    }
+
+    // Get focus mode
+    public boolean getTimerMode(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT " + COL_MODE + " FROM " + TABLE_USER + " LIMIT 1",
+                null
+        );
+
+        boolean timer = false;
+        if(cursor.moveToFirst()){
+            timer = cursor.getInt(0) == 1;
+        }
+
+        cursor.close();
+        return timer;
     }
 
     // --------- ACHIVEMENTS METHODS -------------

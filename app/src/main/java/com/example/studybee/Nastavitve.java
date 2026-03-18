@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -35,6 +36,8 @@ public class Nastavitve extends AppCompatActivity {
 
     Button fm;
 
+    TextView m;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,9 +45,29 @@ public class Nastavitve extends AppCompatActivity {
         setContentView(R.layout.nastavitve);
 
         fm = findViewById(R.id.focusbutton);
+        m = findViewById(R.id.miniinfo);
 
         dbHelper = new DatabaseHelper(this);
+
+        setTexts();
+    }
+
+    public void change(View v){
+        dbHelper.setTimerMode();
+        writeTimerMode();
+        System.out.println(dbHelper.getTimerMode());
+    }
+
+    private void setTexts(){
         nastaviNapisFocus();
+        writeTimerMode();
+
+    }
+
+    public void writeTimerMode(){
+        String text = "Timer mode: ";
+        text+= dbHelper.getTimerMode()? "Countdown" : "Stopwatch";
+        m.setText(text);
     }
 
     public void nastaviNapisFocus(){
