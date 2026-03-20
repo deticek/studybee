@@ -30,6 +30,7 @@
         <activity android:name=".Home"/>
         <activity android:name=".Doseski" />
         <activity android:name=".Sound" />
+        <activity android:name=".BgNose" />
         <activity android:name=".Timer"
             android:lockTaskMode="if_whitelisted"/>
         <activity android:name=".Nastavitve"/>

@@ -146,6 +146,11 @@ public class Nastavitve extends AppCompatActivity {
         startActivity(i);
     }
 
+    public void setbgnose(View v){
+        Intent i = new Intent(this, BgNose.class);
+        startActivity(i);
+    }
+
     public void letsi(View v){
         Intent i = new Intent(this, Doseski.class);
         startActivity(i);

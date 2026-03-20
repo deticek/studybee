@@ -42,6 +42,7 @@ public class Timer extends AppCompatActivity{
     Handler handler = new Handler(Looper.getMainLooper());
     Runnable runnable;
 
+    SoundPlayer sp = new SoundPlayer();
     Handler lockHandler = new Handler(Looper.getMainLooper());
     Runnable lockChecker;
 
@@ -238,7 +239,11 @@ public class Timer extends AppCompatActivity{
 
             handler.post(runnable);
             if (FocusManager.focusEnable) lockHandler.post(lockChecker);
+
+            if(dbHelper.getBgMode()) sp.playBgSound(this, dbHelper.getBgSound());
+
         } else {
+            sp.turnOffPlyer();
             pauseTimer();
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -277,6 +282,7 @@ public class Timer extends AppCompatActivity{
     }
 
     private void stopTimerDueToExit() {
+        sp.turnOffPlyer();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -314,6 +320,7 @@ public class Timer extends AppCompatActivity{
     }
 
     public void fertik(View v){
+        sp.turnOffPlyer();
         koncajtimer();
     }
 
@@ -362,6 +369,8 @@ public class Timer extends AppCompatActivity{
 
         seconds = isCountdown ? defultTime*60 : 0;
         ssecends=0;
+
+        sp.turnOffPlyer();
 
         startTimeMillis = 0;
         t.setText(formatTime(seconds));

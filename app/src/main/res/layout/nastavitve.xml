@@ -160,7 +160,7 @@
         android:id="@+id/button2"
         android:layout_width="358dp"
         android:layout_height="72dp"
-        android:onClick="bgsound"
+        android:onClick="setbgnose"
         android:text="Session Sound"
         android:textAlignment="center"
         android:textAllCaps="true"

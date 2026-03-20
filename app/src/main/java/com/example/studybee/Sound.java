@@ -57,6 +57,12 @@ public class Sound extends AppCompatActivity {
         m.setText(t+dbHelper.getSound());
     }
 
+    public void goback(View v){
+        sp.turnOffPlyer();
+        Intent i = new Intent(this, Nastavitve.class);
+        startActivity(i);
+    }
+
     public void change(View v){
         int sund = Integer.parseInt(v.getTag().toString());
         dbHelper.setSound(sund);
