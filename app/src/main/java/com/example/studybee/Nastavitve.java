@@ -72,7 +72,7 @@ public class Nastavitve extends AppCompatActivity {
 
     public void nastaviNapisFocus(){
         String osnova = "FOCUSE MODE: ";
-        String text = (FocusManager.focusEnable) ? osnova+"TRUE" : osnova+"FALSE";
+        String text = (FocusManager.focusEnable) ? osnova+"ON" : osnova+"OFF";
         fm.setText(text);
     }
 

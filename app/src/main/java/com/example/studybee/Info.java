@@ -3,6 +3,7 @@ package com.example.studybee;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ public class Info extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<Session> sessionList;
     SessionAdapter adapter;
+    TextView t;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,7 @@ public class Info extends AppCompatActivity {
         setContentView(R.layout.info);
 
         dbHelper = new DatabaseHelper(this);
+        t=findViewById(R.id.streak);
 
         recyclerView = findViewById(R.id.historyRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -32,9 +35,17 @@ public class Info extends AppCompatActivity {
         sessionList = new ArrayList<>();
 
         loadSessions();
+        getStreakNum();
 
         adapter = new SessionAdapter(sessionList, dbHelper);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void getStreakNum(){
+        String me = "Session streak: ";
+        int n = dbHelper.getStreak();
+
+        t.setText(me+String.valueOf(n-1));
     }
 
     private void loadSessions(){

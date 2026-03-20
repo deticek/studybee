@@ -62,6 +62,12 @@ public class BgNose extends AppCompatActivity {
     }
 
     private void getInfo(){
+
+        dbHelper.setBgMode();
+        String  k= "BG SOUND: ";
+        k += !dbHelper.getBgMode()? "ON":"OFF";
+        b.setText(k);
+
         String t = "Current background sound: ";
 
         int num = dbHelper.getBgSound();
@@ -125,7 +131,7 @@ public class BgNose extends AppCompatActivity {
         //int sund = Integer.parseInt(v.getTag().toString());
         dbHelper.setBgMode();
         String t = "BG SOUND: ";
-        t += dbHelper.getBgMode()? "TRUE":"FALSE";
+        t += dbHelper.getBgMode()? "ON":"OFF";
         b.setText(t);
     }
 

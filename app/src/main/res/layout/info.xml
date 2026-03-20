@@ -83,8 +83,25 @@
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.045"
-        tools:text="StudyBee" />
+        app:layout_constraintVertical_bias="0.045"/>
+
+    <TextView
+        android:id="@+id/streak"
+        android:layout_width="351dp"
+        android:layout_height="33dp"
+        android:text="Session streak:"
+        android:textAlignment="center"
+        android:textColor="@color/besedilosvetlo"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.161"/>
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/historyRecycler"

@@ -1,5 +1,7 @@
 package com.example.studybee;
 
+import static java.sql.Types.NULL;
+
 import android.content.Context;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -17,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "studybee.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     // ----------- SESSIONS TABLE -----------
     public static final String TABLE_SESSIONS = "sessions";
@@ -30,12 +32,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // ----------- USER TABLE -----------
     public static final String TABLE_USER = "User";
     public static final String COL_USERNAME = "username";
-    public static final String COL_FOCUSMODE = "focus"; // 0/1 integer
+    public static final String COL_FOCUSMODE = "focus";
     public static final String COL_MODE = "mode";
     public static final String COL_DEFULTTIME="defaulttime";
     public static final String COL_SOUND="sound";
     public static final String COL_BGMODE="bgmode";
     public static final String COL_BGSOUND="bgsound";
+    public static final String COL_LASTDATE="lastedate";
+    public static final String COL_STREAK="streak";
 
     // ------------ ACHIVMENTS TABLE -------------------
 
@@ -65,6 +69,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String CREATE_TABLE_USER = "CREATE TABLE IF NOT EXISTS " + TABLE_USER +
                 " (" + COL_USERNAME + " TEXT, " +
                 COL_FOCUSMODE + " INTEGER, "+
+                COL_LASTDATE + " TEXT, "+
+                COL_STREAK + " INTEGER, "+
                 COL_DEFULTTIME + " INTEGER DEFAULT 45, "+
                 COL_SOUND + " INTEGER DEFAULT 1, "+
                 COL_BGMODE + " INTEGER DEFAULT 0, "+
@@ -116,6 +122,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(COL_USERNAME, "User");
             values.put(COL_FOCUSMODE, 0);
+            values.put(COL_LASTDATE, NULL);
+            values.put(COL_STREAK, 0);
             values.put(COL_MODE,0);
             values.put(COL_DEFULTTIME,45);
             values.put(COL_SOUND,1);
@@ -308,6 +316,100 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return timer;
     }
 
+
+    public void inserLastSession() {
+
+        updateStreak();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Date danes = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        String formatiranDatum = format.format(danes);
+
+        ContentValues values = new ContentValues();
+        values.put("lastedate", formatiranDatum);
+
+        db.update(TABLE_USER, values, "username=?", new String[]{getUsername()});
+    }
+
+
+    public void updateStreak() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String today = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+                .format(new Date());
+
+        Cursor c = db.rawQuery(
+                "SELECT " + COL_LASTDATE + ", " + COL_STREAK + " FROM " + TABLE_USER + " LIMIT 1",
+                null
+        );
+
+        if (c != null && c.moveToFirst()) {
+
+            String lastDate = c.getString(0);
+            int streak = c.getInt(1);
+
+            if (lastDate == null) {
+                // prvi session ever
+                streak = 1;
+            } else {
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+
+                    Date last = sdf.parse(lastDate);
+                    Date todayDate = sdf.parse(today);
+
+                    long diff = todayDate.getTime() - last.getTime();
+                    long days = diff / (1000 * 60 * 60 * 24);
+
+                    if (days == 0) {
+                        c.close();
+                        return;
+                    } else if (days == 1) {
+                        streak++;
+                    } else {
+                        streak = 1;
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    streak = 1;
+                }
+            }
+
+            ContentValues values = new ContentValues();
+            values.put(COL_LASTDATE, today);
+            values.put(COL_STREAK, streak);
+
+            db.update(TABLE_USER, values, null, null);
+        }
+
+        if (c != null) c.close();
+    }
+
+    public int getStreak() {
+
+        updateStreak();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor c = db.rawQuery(
+                "SELECT " + COL_STREAK + " FROM " + TABLE_USER + " LIMIT 1",
+                null
+        );
+
+        int streak = 0;
+
+        if (c != null && c.moveToFirst()) {
+            streak = c.getInt(0);
+            c.close();
+        }
+
+        return streak;
+    }
+
+
     // --------- ACHIVEMENTS METHODS -------------
 
     private void insertAchievements() {
@@ -411,6 +513,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_DATE, date);
 
         long result = db.insert(TABLE_SESSIONS, null, values);
+
+        if(duration >= 600 || true){
+            updateStreak();
+            inserLastSession();
+        }
+
         return result != -1;
     }
 
