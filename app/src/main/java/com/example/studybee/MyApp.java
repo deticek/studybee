@@ -1,5 +1,12 @@
 package com.example.studybee;
-
+/*
+ * Author: [Aleks Detiček]
+ * Project: StudyBee
+ * Year: 2026
+ *
+ * This source code is proprietary and confidential.
+ * Unauthorized copying, distribution or use is strictly prohibited.
+ */
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
