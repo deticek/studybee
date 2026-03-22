@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Locale;
 
 public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.ViewHolder>{
 
@@ -56,7 +57,7 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.ViewHold
         holder.dateText.setText("Date: " + session.date);
         holder.startText.setText("Start: " + session.start);
         holder.endText.setText("End: " + session.end);
-        holder.durationText.setText("Duration: " + session.duration + " sec");
+        holder.durationText.setText("Duration: " + formatTime(session.duration));
 
         holder.deleteButton.setOnClickListener(v -> {
 
@@ -68,6 +69,13 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.ViewHold
             notifyItemRangeChanged(position, sessions.size());
 
         });
+    }
+
+    private String formatTime(long totalSeconds) {
+        long h = totalSeconds / 3600;
+        long m = (totalSeconds % 3600) / 60;
+        long s = totalSeconds % 60;
+        return String.format(Locale.getDefault(), "%02d:%02d:%02d", h, m, s);
     }
 
     @Override

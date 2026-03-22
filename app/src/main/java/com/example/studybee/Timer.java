@@ -350,6 +350,12 @@ public class Timer extends AppCompatActivity{
         findViewById(R.id.obvestilo).setVisibility(View.GONE);
         showUIButtons();
 
+        if(isCountdown){
+            findViewById(R.id.addless).setVisibility(View.VISIBLE);
+            findViewById(R.id.addmore).setVisibility(View.VISIBLE);
+            findViewById(R.id.defaultt).setVisibility(View.VISIBLE);
+        }
+
         checkAchivements(3);
 
         long duration = ssecends;
@@ -474,6 +480,13 @@ public class Timer extends AppCompatActivity{
         findViewById(R.id.textView3).setVisibility(View.GONE);
         findViewById(R.id.settingsb).setVisibility(View.GONE);
         findViewById(R.id.urab).setVisibility(View.GONE);
+
+        if(isCountdown){
+            findViewById(R.id.addless).setVisibility(View.GONE);
+            findViewById(R.id.addmore).setVisibility(View.GONE);
+            findViewById(R.id.defaultt).setVisibility(View.GONE);
+        }
+
     }
 
     private void showUIButtons() {
